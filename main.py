@@ -1,3 +1,5 @@
+from operaciones import mostrar_inventario
+
 def main():
     inventario = []
     opc = 0 #Incializamos la variable opc en 0 para que el bucle while se ejecute al menos una vez
@@ -20,6 +22,7 @@ def main():
                 print("Ejecutando opción 1: Carga de herramientas (Multiples ingresos)")
             elif opc == 2:
                 print("Ejecutando opción 2: Visualización de inventario")
+                mostrar_inventario(inventario)
             elif opc == 3:
                 print("Ejecutando opción 3: Consulta de stock")
             elif opc == 4:
