@@ -31,9 +31,9 @@ def cargar_herramientas(inventario):
             #Captura el error de int() como el raise manual anterior y muestra un mensaje de error al usuario
             print(f"Error: {e}. Intente nuevamente.")
     #cargar cada herramienta en el inventario
-    for _ in range(cant_a_cargar):
+    for _ in range(cant_a_cargar): # _ variable de descarte (no se necesita usar el valor de la variable)
         print("-" * 40) #imprime una línea de separación para mejorar la legibilidad
-       #Validamos el nombre de la herramienta para que no sea vacío y no se repita en el inventario
+    #Validamos el nombre de la herramienta para que no sea vacío y no se repita en el inventario
         while True:
             try:
                 herramienta = input("Ingrese el nombre de la herramienta: ").strip()
@@ -64,3 +64,32 @@ def cargar_herramientas(inventario):
         inventario.append({'herramienta': herramienta, 'cantidad': cantidad})
         print(f"La herramienta '{herramienta}' ha sido agregada al inventario con {cantidad} unidades.")  
 
+#opc 3
+
+def consultar_stock(inventario):
+    """
+    Busca una herramienta por su nombre y muestra su stock actual.
+    Args:
+        inventario (list): Lista de diccionarios con el catálogo de herramientas.
+    Raises:
+        ValueError: Si el nombre ingresado está vacío (se delega el manejo a main.py).
+    """
+
+    if not inventario:
+        print("\n[!] El inventario está vacío actualmente.")
+        return
+    print("\n--- CONSULTA DE STOCK ---")
+    herramienta = input("Ingrese el nombre de la herramienta a consultar: ").strip()
+    # Si el input está vacío, lanzamos el error para que main.py aborte y vuelva al menú
+    if not herramienta:
+        raise ValueError("El nombre de la herramienta no puede estar vacío.")
+    # Búsqueda secuencial ignorando diferencias de mayúsculas y minúsculas
+    for producto in inventario:
+        if producto['herramienta'].lower() == herramienta.lower():
+            # Imprimimos usando el nombre original formateado del diccionario
+            print(f"\n[+] Stock disponible de '{producto['herramienta']}': {producto['cantidad']} unidades.")
+            print("-" * 40)
+            return
+    # Si el bucle termina sin ejecutar el return, asumimos que no existe
+    print(f"\n[-] La herramienta '{herramienta}' no se encuentra en el catálogo.")
+    print("-" * 40)
