@@ -1,4 +1,4 @@
-from operaciones import mostrar_inventario
+from operaciones import mostrar_inventario, cargar_herramientas
 
 def main():
     inventario = []
@@ -20,6 +20,7 @@ def main():
 
             if opc == 1:
                 print("Ejecutando opción 1: Carga de herramientas (Multiples ingresos)")
+                cargar_herramientas(inventario)
             elif opc == 2:
                 print("Ejecutando opción 2: Visualización de inventario")
                 mostrar_inventario(inventario)
