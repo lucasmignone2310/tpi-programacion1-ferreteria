@@ -133,3 +133,35 @@ def reporte_agotados(inventario):
         print("\n[+] No hay productos agotados en el inventario.")
 
     print("-" * 40)
+
+#opc 5
+
+def alta_producto(inventario):
+    """
+    Agrega una única herramienta nueva al inventario validando las reglas de negocio.
+    Delega el manejo de errores (entradas vacías, duplicados, datos inválidos) a main.py.
+
+    Args:
+        inventario (list): Lista de diccionarios con el catálogo de herramientas.
+        
+    Raises:
+        ValueError: Si el nombre está vacío, el producto ya existe, o el stock es negativo.
+    """
+    print("\n--- ALTA DE NUEVO PRODUCTO ---")
+    herramienta = input("Ingrese el nombre de la herramienta: ").strip()
+    if not herramienta:
+        raise ValueError("[!] El nombre de la herramienta no puede estar vacío.")
+
+    for producto in inventario:
+        if producto['herramienta'].lower() == herramienta.lower():
+            raise ValueError("[!] La herramienta ya existe en el inventario.")
+
+    cantidad = int(input(f"Ingrese el stock inicial de la herramienta '{herramienta}': "))
+    
+    if cantidad < 0:
+        raise ValueError("[!] El stock inicial no puede ser negativo.")
+
+    inventario.append({'herramienta': herramienta, 'cantidad': cantidad})
+    print(f"[+] La herramienta '{herramienta}' ha sido agregada al inventario con {cantidad} unidades.")
+
+    print("-" * 40)
