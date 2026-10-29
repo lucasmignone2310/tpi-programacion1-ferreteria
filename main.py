@@ -1,4 +1,4 @@
-from operaciones import mostrar_inventario, cargar_herramientas, consultar_stock
+from operaciones import mostrar_inventario, cargar_herramientas, consultar_stock, reporte_agotados
 
 def main():
     inventario = []
@@ -28,7 +28,8 @@ def main():
                 print("Ejecutando opción 3: Consulta de stock")
                 consultar_stock(inventario)
             elif opc == 4:
-                print("Ejecutando opción 4: Reporte de faltantes")
+                print("Ejecutando opción 4: Reporte de agotados")
+                reporte_agotados(inventario)
             elif opc == 5:
                 print("Ejecutando opción 5: Alta nuevo producto")
             elif opc == 6:

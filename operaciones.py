@@ -3,11 +3,14 @@ def mostrar_inventario(inventario):
     """
     Recorre la lista de inventario y muestra los datos de cada producto.
     Si la lista está vacía, aborta la ejecución y notifica al usuario.
+
+    Args:
+        inventario (list): Lista de diccionarios con el catálogo de herramientas
     """ 
     if not inventario:
         print("\n[!] El inventario está vacío actualmente.")
         return
-    print("\n--- Inventario de la Ferretería ---")
+    print("\n--- INVENTARIO DE LA FERRETERÍA ---")
     for producto in inventario:
         print(f"| Producto: {producto['herramienta']} | Cantidad: {producto['cantidad']} |")
     print("-" * 40) #imprime una línea de separación para mejorar la legibilidad
@@ -16,8 +19,16 @@ def mostrar_inventario(inventario):
 
 def cargar_herramientas(inventario):
     """
-    Permite al usuario ingresar multiples productos/herramientas al inventario.
-    Cada producto/herramienta se guarda en un diccionario con sus respectivos datos.
+    Permite al usuario ingresar múltiples productos al inventario.
+    Cada producto se guarda en un diccionario validando nombres (no vacíos, no duplicados)
+    y cantidades (enteros mayores o iguales a cero).
+
+    Args:
+        inventario (list): Lista de diccionarios con el catálogo de herramientas.
+        
+    Raises:
+        ValueError: Lanzado intencionalmente si las validaciones de negocio fallan, 
+                    pero es capturado internamente por los bloques try/except para reintentar.
     """
     print("\n--- ALTA DE HERRAMIENTAS ---")
     #Solicitamos al usuario la cantidad de herramientas a cargar y validamos que sea un número entero mayor que cero
@@ -39,7 +50,7 @@ def cargar_herramientas(inventario):
                 herramienta = input("Ingrese el nombre de la herramienta: ").strip()
                 if not herramienta:
                     raise ValueError("El nombre de la herramienta no puede estar vacío.")
-                #Verificamos si la herramienta ya existe en el inventario para evitar duplicados
+                #Verificamos si la herramienta ya existe en el inventario para evitar duplicados ignorando diferencias de mayúsculas y minúsculas
                 duplicado = False 
                 for producto in inventario:
                     if producto['herramienta'].lower() == herramienta.lower():
@@ -62,7 +73,9 @@ def cargar_herramientas(inventario):
 
         #Guardamos la herramienta en el inventario como un diccionario con sus datos
         inventario.append({'herramienta': herramienta, 'cantidad': cantidad})
-        print(f"La herramienta '{herramienta}' ha sido agregada al inventario con {cantidad} unidades.")  
+        print(f"[+] La herramienta '{herramienta}' ha sido agregada al inventario con {cantidad} unidades.")
+        print("-" * 40)
+
 
 #opc 3
 
@@ -92,4 +105,31 @@ def consultar_stock(inventario):
             return
     # Si el bucle termina sin ejecutar el return, asumimos que no existe
     print(f"\n[-] La herramienta '{herramienta}' no se encuentra en el catálogo.")
+    print("-" * 40)
+
+#opc 4
+
+def reporte_agotados(inventario):
+    """
+    Filtra y muestra las herramientas del catálogo cuyo stock es exactamente cero.
+    Informa al usuario si el inventario está vacío o si no hay productos agotados.
+
+    Args:
+        inventario (list): Lista de diccionarios con el catálogo de herramientas.
+    """
+    if not inventario:
+        print("\n[!] El inventario está vacío actualmente.")
+        return
+    print("\n--- REPORTE DE AGOTADOS ---")
+
+    hay_faltantes = False
+
+    for producto in inventario:
+        if producto['cantidad'] == 0:
+            hay_faltantes = True
+            print(f"| Producto: {producto['herramienta']} | Cantidad: {producto['cantidad']} |")
+
+    if not hay_faltantes:
+        print("\n[+] No hay productos agotados en el inventario.")
+
     print("-" * 40)
