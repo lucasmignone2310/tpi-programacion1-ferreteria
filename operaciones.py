@@ -165,3 +165,68 @@ def alta_producto(inventario):
     print(f"[+] La herramienta '{herramienta}' ha sido agregada al inventario con {cantidad} unidades.")
 
     print("-" * 40)
+
+#opc 6
+
+def actualizar_stock(inventario):
+    """
+    Actualiza el stock de una herramienta existente (venta o ingreso).
+    Respeta un orden estricto de validaciones, abortando ante el primer error.
+
+    Args:
+        inventario (list): Lista de diccionarios con el catálogo de herramientas.
+        
+    Raises:
+        ValueError: Si el nombre está vacío, las unidades son <= 0, o la venta supera el stock.
+    """
+#Verificamos que el inventario no esté vacío antes de continuar
+    if not inventario:
+        print("\n[!] El inventario está vacío actualmente.")
+        return
+    
+    print("\n--- ACTUALIZACIÓN DE STOCK ---")
+#Validamos que el nombre de la herramienta no esté vacío
+    herramienta = input("Ingrese el nombre de la herramienta a actualizar: ").strip()
+    if not herramienta:
+        raise ValueError("[!] El nombre de la herramienta no puede estar vacío.")
+    #Buscamos si la herramienta existe en el inventario y guardamos su referencia para actualizarla
+    producto_encontrado = None
+    for producto in inventario:
+        if producto['herramienta'].lower() == herramienta.lower():
+            producto_encontrado = producto
+            break
+
+    if not producto_encontrado:
+        print(f"\n[-] La herramienta '{herramienta}' no se encuentra en el catálogo.")
+        print("-" * 40)
+        return
+
+    print(f"[+] Stock actual de '{producto_encontrado['herramienta']}': {producto_encontrado['cantidad']} unidades.")
+#Solicitamos al usuario el tipo de movimiento (venta o ingreso) y validamos que sea '1' o '2'
+    tipo_de_movimento = input("Ingrese '1' para venta o '2' para ingreso de stock: ").strip()
+
+    if tipo_de_movimento not in ['1', '2']:
+        print("[!] Opción inválida. Debe ingresar '1' para venta o '2' para ingreso de stock.")
+        print("-" * 40)
+        return
+
+    #Pedimos una sola vez la cantidad a vender o ingresar y validamos que sea un número entero mayor que cero
+
+    unidades = int(input("Ingrese la cantidad a vender o ingresar: "))
+
+    if unidades <= 0:
+        raise ValueError("[!] La cantidad debe ser un número entero mayor que cero.")
+
+
+    if tipo_de_movimento == '1': #Venta    
+        if unidades > producto_encontrado['cantidad']:
+            raise ValueError(f"[!] No hay suficiente stock para realizar la venta. Stock disponible: {producto_encontrado['cantidad']} unidades.")
+        producto_encontrado['cantidad'] -= unidades
+        accion = "Venta"
+    else: #Ingreso  
+        producto_encontrado['cantidad'] += unidades
+        accion = "Ingreso"
+        
+    print(f"[+] {accion} exitoso Stock actualizado de '{producto_encontrado['herramienta']}': {producto_encontrado['cantidad']} unidades.")
+    print("-" * 40)
+
