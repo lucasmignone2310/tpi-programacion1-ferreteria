@@ -205,7 +205,7 @@ def actualizar_stock(inventario):
 #Solicitamos al usuario el tipo de movimiento (venta o ingreso) y validamos que sea '1' o '2'
     tipo_de_movimento = input("Ingrese '1' para venta o '2' para ingreso de stock: ").strip()
 
-    if tipo_de_movimento not in ['1', '2']:
+    if tipo_de_movimento != '1' and tipo_de_movimento != '2':
         print("[!] Opción inválida. Debe ingresar '1' para venta o '2' para ingreso de stock.")
         print("-" * 40)
         return
